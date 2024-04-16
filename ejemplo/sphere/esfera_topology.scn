@@ -1,0 +1,29 @@
+<?xml version="1.0" ?>
+<Node name="root" gravity="0 -1000 0" dt="0.04">
+    <Node name="RequiredPlugins">
+        <RequiredPlugin name="Sofa.Component.AnimationLoop"/> <!-- Needed to use components [FreeMotionAnimationLoop] -->
+        <RequiredPlugin name="Sofa.Component.IO.Mesh"/> <!-- Needed to use components [MeshOBJLoader] -->
+        <RequiredPlugin name="Sofa.Component.Visual"/> <!-- Needed to use components [InteractiveCamera VisualStyle] -->
+</Node>
+    
+    <LightManager />
+    
+    <FreeMotionAnimationLoop parallelCollisionDetectionAndFreeMotion="true"/>
+    
+    <VisualStyle displayFlags="showVisual" /> <!--showBehaviorModels showCollisionModels-->
+
+    <InteractiveCamera position="0 30 90" lookAt="0 30 0"/>
+    <PositionalLight name="light1" color="1 1 1" attenuation="0.1" position="10 10 10" />
+
+    <MeshOBJLoader name="mesh_esfera" filename=".\assets\esfera.obj" handleSeams="0" />
+   
+    <Node name="esfera" >
+        <MechanicalObject name="StateVectors" src="@../mesh_esfera" />
+        <QuadSetTopologyContainer name="topo_quad" src="@../mesh_esfera" />
+        <QuadSetGeometryAlgorithms name="algorithm_quad" template="Vec3d" drawQuads="0" showQuadIndices="1"/>
+        <Node name="VisuBody" tags="Visual" >
+            <OglModel  name="VisualBody" src="@../../mesh_esfera"  />
+          </Node> 
+    </Node>
+
+</Node>

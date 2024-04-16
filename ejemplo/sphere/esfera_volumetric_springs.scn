@@ -1,0 +1,39 @@
+<?xml version="1.0" ?>
+<Node name="root" gravity="0 0 -9.8" dt="0.02">
+    <Node name="RequiredPlugins">
+        <RequiredPlugin name="Sofa.Component.AnimationLoop"/> <!-- Needed to use components [FreeMotionAnimationLoop] -->
+        <RequiredPlugin name="Sofa.Component.IO.Mesh"/> <!-- Needed to use components [MeshOBJLoader] -->
+        <RequiredPlugin name="Sofa.Component.Visual"/> <!-- Needed to use components [InteractiveCamera VisualStyle] -->
+        <RequiredPlugin name="Sofa.Component.Constraint.Lagrangian.Solver"/> <!-- Needed to use components [LCPConstraintSolver] -->
+        <RequiredPlugin name="Sofa.Component.Mass"/> <!-- Needed to use components [UniformMass] -->
+        <RequiredPlugin name="Sofa.Component.ODESolver.Backward"/> <!-- Needed to use components [EulerImplicitSolver] -->
+        <RequiredPlugin name="Sofa.Component.StateContainer"/> <!-- Needed to use components [MechanicalObject] -->
+        <RequiredPlugin name="Sofa.Component.Topology.Container.Dynamic"/> <!-- Needed to use components [QuadSetGeometryAlgorithms,QuadSetTopologyContainer] -->
+        <RequiredPlugin name="Sofa.GL.Component.Rendering3D"/> <!-- Needed to use components [OglModel] -->
+        <RequiredPlugin name="Sofa.GL.Component.Shader"/> <!-- Needed to use components [LightManager,PositionalLight] -->
+        <RequiredPlugin name="Sofa.Component.LinearSolver.Iterative"/> <!-- Needed to use components [CGLinearSolver] -->
+        <RequiredPlugin name="Sofa.Component.Mapping.Linear"/> <!-- Needed to use components [BarycentricMapping] -->
+        <RequiredPlugin name="Sofa.Component.MechanicalLoad"/> <!-- Needed to use components [PlaneForceField] -->
+        <RequiredPlugin name="Sofa.Component.SolidMechanics.Spring"/> <!-- Needed to use components [MeshSpringForceField] -->
+    </Node>    
+    <LightManager />
+    
+    <LCPConstraintSolver tolerance="1e-3" maxIt="1000" initial_guess="false" build_lcp="false"  printLog="0" mu="0.2"/>
+    <DefaultAnimationLoop/>    
+    <VisualStyle displayFlags="showVisual showCollisionModels showForceFields " /> <!--showBehaviorModels showCollisionModels-->
+    <InteractiveCamera position="0 30 90" lookAt="0 30 0"/>
+    <PositionalLight name="light1" color="1 1 1" attenuation="0.1" position="10 10 10" />
+    <MeshOBJLoader name="mesh_esfera" filename=".\assets\esfera.obj" handleSeams="0" />
+    <MeshGmshLoader name="mesh_esfera_volumen" filename=".\assets\sphere.msh" />
+   
+    <Node name="esfera" >
+        <EulerImplicitSolver rayleighStiffness="0.1" rayleighMass="0.1"/>
+        <CGLinearSolver iterations="100" tolerance="1e-5" threshold="1e-5"/>        
+        <MechanicalObject name="StateVectors" template="Vec3" src="@../mesh_esfera_volumen" />
+        <TetrahedronSetTopologyContainer name="sphere_tetra" src="@../mesh_esfera_volumen" />        
+        <TetrahedronSetGeometryAlgorithms template="Vec3" name="GeomAlgo" />
+        <MeshSpringForceField name="Springs" stiffness="8" damping="0.5" /> 
+        <UniformMass totalMass="1.0" />        
+         <PlaneForceField name="Floor" d="-5.25" normal="0 0 1" stiffness="1000" damping="10" showPlane= "1"/>
+    </Node>       
+</Node>

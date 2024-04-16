@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<Node name="root" gravity="0 -1000 0" dt="0.04">
+    <Node name="RequiredPlugins">
+        <RequiredPlugin name="Sofa.Component.AnimationLoop"/> <!-- Needed to use components [FreeMotionAnimationLoop] -->
+        <RequiredPlugin name="Sofa.Component.IO.Mesh"/> <!-- Needed to use components [MeshOBJLoader] -->
+        <RequiredPlugin name="Sofa.Component.Visual"/> <!-- Needed to use components [InteractiveCamera VisualStyle] -->
+        <RequiredPlugin name="Sofa.GL.Component.Rendering3D"/> <!-- Needed to use components [OglModel] -->
+        <RequiredPlugin name="Sofa.GL.Component.Shader"/> <!-- Needed to use components [LightManager SpotLight] -->
+    </Node>
+        
+    <VisualStyle displayFlags="showVisual" /> <!--showBehaviorModels showCollisionModels-->
+
+    <InteractiveCamera position="0 30 90" lookAt="0 30 0"/>
+   
+    <MeshOBJLoader name="mesh_esfera" filename=".\assets\esfera.obj" handleSeams="1" />
+   
+    <Node name="esfera" >
+        <Node name="VisuBody" tags="Visual" >
+            <OglModel  name="VisualBody" src="@../../mesh_esfera"  />
+          </Node> 
+    </Node>
+
+</Node>
